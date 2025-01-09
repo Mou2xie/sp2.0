@@ -1,0 +1,7 @@
+---
+import SvelteHeader from "./Header.svelte";
+
+const route = Astro.routePattern;
+---
+
+<SvelteHeader client:load {route} />

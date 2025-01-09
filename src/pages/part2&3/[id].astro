@@ -1,0 +1,113 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Main from "../../layouts/Main.astro";
+import Header from "../../components/Header.astro";
+import PartFooter from "../../components/PartFooter.svelte";
+import GhostBtn from "../../components/GhostBtn.svelte";
+
+import { supabaseClient } from "../../libs/supabaseClient.js";
+
+export async function getStaticPaths() {
+    const { data, error } = await supabaseClient
+        .from("part2_topics")
+        .select("id")
+        .eq("isOnline", true);
+
+    const paths = data?.map(({ id }) => ({
+        params: { id: id.toString() },
+    }));
+
+    return paths;
+}
+
+const { id } = Astro.params;
+
+const { data, error } = await supabaseClient
+    .from("part2_topics")
+    .select("*")
+    .eq("isOnline", true)
+    .eq("id", +id);
+
+const pageData = data?.[0] ?? null;
+
+const title = `${pageData.topic} - Part 2 Topic`;
+const description = `The reference answer to the IELTS speaking Part2&3 question: ${pageData.topic}`;
+const keywords =
+    "IELTS, IELTS speaking, part2, part3, topics, questions, answers";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+    <Header />
+    <Main>
+        <div
+            class="subtitle text-blue-main text-[1.1rem] text-center mt-10 font-semibold"
+        >
+            <a href={`/part2&3/list/${pageData.category}`}
+                >{`Part 2 Topic > ${pageData.category}`}</a
+            >
+        </div>
+        <h1
+            class="mt-5 w-4/5 m-auto question font-semibold text-text-strong text-[1.2rem] md:text-[1.4rem] md:w-3/5"
+        >
+            <span class="text-blue-main mr-2">Q:</span>{pageData.topic}
+        </h1>
+        <div
+            class="subQuestion w-4/5 m-auto mt-3 flex flex-col gap-1 text-text-main leading-tight md:w-3/5 md:text-[1.1rem]"
+        >
+            <div>You shold say:</div>
+            {
+                pageData?.subTopics.map((item: string, index: number) => (
+                    <div>
+                        {index + 1}. {item}
+                    </div>
+                ))
+            }
+        </div>
+        <p class="w-4/5 m-auto md:w-3/5 mt-5 text-text-secondary">
+            {pageData?.sample_answer}
+        </p>
+        <div
+            class="mt-5 w-4/5 m-auto question font-semibold text-text-strong text-lg md:text-[1.3rem] md:w-3/5"
+        >
+            Part 3 Example Questions
+        </div>
+        <div class="w-4/5 m-auto md:w-3/5 mt-5 mb-10 flex flex-col gap-5">
+            {
+                pageData?.part3?.map(
+                    (
+                        { topic, answer }: { topic: string; answer: string },
+                        index: number,
+                    ) => (
+                        <div>
+                            <p class="question font-semibold text-text-strong text-[1.1rem] md:text-[1.2rem]">
+                                <span class=" text-blue-main">
+                                    Q{index + 1}:
+                                </span>
+                                {topic}
+                            </p>
+                            <p class=" mt-2 text-text-secondary">{answer}</p>
+                        </div>
+                    ),
+                )
+            }
+        </div>
+        <div class="text-center mb-10">
+            <GhostBtn client:visible to={`/part2&3/list/${pageData.category}`}
+                >Other IELTS Part 2 Topics</GhostBtn
+            >
+        </div>
+    </Main>
+    <PartFooter part={2} />
+</Layout>
+
+<style>
+    h1,
+    .subtitle,
+    .question,
+    .subQuestion {
+        font-family: "Bree Serif", serif;
+    }
+    p {
+        font-family: "lato", sans-serif;
+    }
+</style>

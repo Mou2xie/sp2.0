@@ -1,0 +1,46 @@
+---
+const {
+	title = "Speaking Pass",
+	description = "",
+	keywords = "",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<!-- <meta name="viewport" content="width=device-width" /> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<meta name="generator" content={Astro.generator} />
+		<!-- SEO info below -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="keywords" content={keywords} />
+	</head>
+	<body class="min-h-svh flex flex-col">
+		<slot />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Import the Merriweather font for logo */
+	/* font-family: "Merriweather", serif; */
+	@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
+
+	/* Import the Bree Serif font for headings */
+	/* font-family: "Bree Serif", serif; */
+	@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap");
+
+	/* Import the Lato font for body text */
+	/* font-family: 'lato', sans-serif; */
+	@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+</style>

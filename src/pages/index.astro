@@ -1,0 +1,80 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Main from "../layouts/Main.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Btn from "../components/Btn.svelte";
+import heroimage from "../assets/hero-image.svg?url";
+
+const title = "Speaking Pass - Collection of IELTS Speaking Topics";
+const description =
+	"Collection of all current and past IELTS speaking test topics and questions of part1 part2 and part3.";
+const keywords = "IELTS, IELTS speaking, part1, part2, part3, topics, questions, answers";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+	<Header />
+	<Main>
+		<h1
+			class="text-2xl text-center mt-10 font-semibold w-3/4 m-auto text-text-strong md:text-[2.2rem] md:mt-20"
+		>
+			Collection of IELTS Speaking Test Topics
+		</h1>
+		<p
+			class="mt-5 text-text-secondary leading-tight text-center w-4/5 m-auto md:w-[50%] md:text-[1.2rem] md:mt-7"
+		>
+			All the past and current IELTS Speaking test questions are here to
+			help you prepare for your test.
+		</p>
+
+		<div
+			class="flex flex-col items-center gap-4 my-10 md:flex-row md:justify-center"
+		>
+			<Btn client:load to="/part1">Part 1</Btn>
+			<Btn client:load to="/part2&3/list/Person">Part 2&3</Btn>
+		</div>
+
+		<img src={heroimage} alt="hero image" class="w-3/4 m-auto md:w-2/5" />
+
+		<div
+			class="bree text-blue-main text-center mt-10 font-semibold md:text-[1.1rem]"
+		>
+			Master the IELTS Speaking Test
+		</div>
+		<h2
+			class="text-text-strong w-4/5 text-lg m-auto text-center font-semibold md:text-[1.3rem]"
+		>
+			Overcome the Challenge of "What to Say"
+		</h2>
+
+		<p class="w-4/5 m-auto mt-5 text-text-main md:w-3/5 md:text-[1.1rem]">
+			If you’ve ever taken the IELTS Speaking test, you’ll likely agree
+			that the hardest part isn’t speaking itself—it’s figuring out what
+			to say. In the exam room, you must overcome nerves while answering
+			unfamiliar questions within a limited time. For most candidates,
+			uncertainty about what to say is the greatest challenge.
+		</p>
+		<p
+			class="w-4/5 m-auto mt-5 text-text-main mb-10 md:w-3/5 md:text-[1.1rem]"
+		>
+			Thankfully, IELTS Speaking topics are often recycled, giving you the
+			chance to prepare in advance. At Speaking Pass, we continuously
+			collect and share real IELTS Speaking exam questions. Any of these
+			topics could appear in your next test. With all the topics at your
+			fingertips, I hope you’ll feel confident and composed when it’s time
+			to deliver your answers.
+		</p>
+	</Main>
+	<Footer />
+</Layout>
+
+<style>
+	h1,
+	h2,
+	.bree {
+		font-family: "Bree Serif", serif;
+	}
+	p {
+		font-family: "lato", sans-serif;
+	}
+</style>

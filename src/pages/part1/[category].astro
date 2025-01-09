@@ -1,0 +1,81 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Main from "../../layouts/Main.astro";
+import Header from "../../components/Header.astro";
+import PartFooter from "../../components/PartFooter.svelte";
+import GhostBtn from "../../components/GhostBtn.svelte";
+
+import { supabaseClient } from "../../libs/supabaseClient.js";
+
+export async function getStaticPaths() {
+    const { data, error } = await supabaseClient
+        .from("part1_category")
+        .select("category")
+        .eq("isOnline", true);
+
+    const paths = data?.map(({ category }) => ({ params: { category } }));
+
+    return paths;
+}
+
+const { category } = Astro.params;
+
+const { data: pageData, error: err } = await supabaseClient
+    .from("part1_topics")
+    .select("*")
+    .eq("category", category)
+    .eq("isOnline", true)
+    .order("priority", { ascending: false });
+
+const title = `Topics of ${category} - Collection of IELTS Speaking Topics`;
+const description = `${pageData?.length} IELTS Speaking Part 1 questions and answers about ${category}.`;
+const keywords = "IELTS, IELTS speaking, part1, topics, questions, answers";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+    <Header />
+    <Main>
+        <div
+            class="subtitle text-blue-main text-[1.1rem] text-center mt-10 font-semibold"
+        >
+            <a href="/part1"> Part 1 Topic </a>
+        </div>
+        <h1
+            class="text-text-strong text-[1.4rem] text-center font-semibold mt-2 md:text-[1.6rem]"
+        >
+            — {category} —
+        </h1>
+        <section
+            class="w-4/5 m-auto flex flex-col gap-8 my-10 md:w-3/5 md:text-[1.1rem]"
+        >
+            {
+                pageData?.map(({ topic, sample_answer }, index) => (
+                    <div class=" flex flex-col gap-2">
+                        <div class="question font-semibold text-text-strong text-lg md:text-[1.3rem]">
+                            <span class=" text-blue-main">Q{index + 1}:</span>
+                            {topic}
+                        </div>
+                        <p class=" text-text-secondary">{sample_answer}</p>
+                    </div>
+                ))
+            }
+        </section>
+        <div class="text-center mb-10">
+            <GhostBtn client:visible to="/part1"
+                >Other IELTS Part 1 Topics</GhostBtn
+            >
+        </div>
+    </Main>
+    <PartFooter part={1} />
+</Layout>
+
+<style>
+    h1,
+    .subtitle,
+    .question {
+        font-family: "Bree Serif", serif;
+    }
+    p {
+        font-family: "lato", sans-serif;
+    }
+</style>

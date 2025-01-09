@@ -1,0 +1,70 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Main from "../../layouts/Main.astro";
+import Header from "../../components/Header.astro";
+import egg from "../../assets/egg1.svg?url";
+import Footer from "../../components/Footer.astro";
+
+import { supabaseClient } from "../../libs/supabaseClient.js";
+
+let { data, error } = await supabaseClient
+    .from("part1_category")
+    .select("category,isNew")
+    .eq("isOnline", true)
+    .order("priority", { ascending: false });
+
+const title = "Part1 Topics - Collection of IELTS Speaking Topics";
+const description = `${data?.length} current and past IELTS speaking Part1 topics questions and answers. `;
+const keywords = "IELTS, IELTS speaking, part1, topics, questions, answers";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+    <Header />
+    <Main>
+        <img src={egg} alt="part1 image" class="w-20 m-auto my-7 md:w-24" />
+        <h1
+            class="text-[1.3rem] text-center font-semibold text-text-strong md:text-[1.5rem]"
+        >
+            Part 1 Topics
+        </h1>
+        <p
+            class="w-4/5 m-auto mt-5 text-text-secondary leading-tight md:w-3/5 md:text-[1.1rem]"
+        >
+            Part 1 of the IELTS Speaking test is the opening section, lasting
+            4-5 minutes. It helps the examiner learn about your basic
+            information and daily habits. Questions cover topics like personal
+            background, daily life, and familiar themes such as festivals or
+            weather.
+        </p>
+        <p
+            class="w-4/5 m-auto mt-2 text-text-secondary leading-tight md:w-3/5 md:text-[1.1rem]"
+        >
+            Part 1 topics are listed below:
+        </p>
+        <section
+            class="grid grid-cols-2 w-4/5 m-auto my-10 gap-8 md:w-3/5 md:grid-cols-3 md:gap-8"
+        >
+            {
+                data?.map(({ category, isNew }) => (
+                    <a href={`/part1/${category}`}>
+                        <div class="  text-text-main text-[1.1rem] font-[500] line-clamp-1 md:text-[1.2rem] md:hover:text-blue-main transition duration-200 ease-in-out">
+                            {category}
+                        </div>
+                    </a>
+                ))
+            }
+        </section>
+    </Main>
+    <Footer />
+</Layout>
+
+<style>
+    h1 {
+        font-family: "Bree Serif", serif;
+    }
+
+    p,
+    div {
+        font-family: "lato", sans-serif;
+    }
+</style>
