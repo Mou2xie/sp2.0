@@ -13,6 +13,20 @@ let { data, error } = await supabaseClient
     .eq("isOnline", true)
     .order("priority", { ascending: false });
 
+const mustTopics = [
+    { category: "Study", isNew: false },
+    { category: "Work", isNew: false },
+    { category: "Hometown", isNew: false },
+    { category: "The area you live in", isNew: false },
+    { category: "Accommodation", isNew: false },
+];
+const currentTopics = data?.filter((topic) => topic.isNew);
+let oldTopics = data?.filter((topic) => !topic.isNew);
+oldTopics = oldTopics?.filter(
+    (topic) =>
+        !mustTopics.some((mustTopic) => mustTopic.category === topic.category),
+);
+
 const title = "Part1 Topics - Collection of IELTS Speaking Topics";
 const description = `${data?.length} current and past IELTS speaking Part1 topics questions and answers. `;
 const keywords = "IELTS, IELTS speaking, part1, topics, questions, answers";
@@ -41,11 +55,51 @@ const keywords = "IELTS, IELTS speaking, part1, topics, questions, answers";
         >
             Part 1 topics are listed below:
         </p>
+        <h2
+            class="text-center text-blue-main text-[1.1rem] my-10 font-semibold md:text-[1.3rem]"
+        >
+            — Must-Test Topics —
+        </h2>
         <section
-            class="grid grid-cols-2 w-4/5 m-auto my-10 gap-8 md:w-3/5 md:grid-cols-3 md:gap-8"
+            class="grid grid-cols-2 w-4/5 m-auto mb-10 gap-8 md:w-3/5 md:grid-cols-3 md:gap-8"
         >
             {
-                data?.map(({ category, isNew }) => (
+                mustTopics?.map(({ category, isNew }) => (
+                    <a href={`/part1/${category}`}>
+                        <div class="  text-text-main text-[1.1rem] font-[500] line-clamp-1 md:text-[1.2rem] md:hover:text-blue-main transition duration-200 ease-in-out">
+                            {category}
+                        </div>
+                    </a>
+                ))
+            }
+        </section>
+        <h2 class="text-center text-blue-main text-[1.1rem] font-semibold md:text-[1.3rem]">
+            — Current Topics —
+        </h2>
+        <h3 class="text-center text-blue-main mb-10 font-semibold text-[1.1rem] md:text-[1.3rem]">( January to April )</h3>
+        <section
+            class="grid grid-cols-2 w-4/5 m-auto mb-10 gap-8 md:w-3/5 md:grid-cols-3 md:gap-8"
+        >
+            {
+                currentTopics?.map(({ category, isNew }) => (
+                    <a href={`/part1/${category}`}>
+                        <div class="  text-text-main text-[1.1rem] font-[500] line-clamp-1 md:text-[1.2rem] md:hover:text-blue-main transition duration-200 ease-in-out">
+                            {category}
+                        </div>
+                    </a>
+                ))
+            }
+        </section>
+        <h2
+            class="text-center text-blue-main text-[1.1rem] my-10 font-semibold md:text-[1.3rem]"
+        >
+            — Past Topics —
+        </h2>
+        <section
+            class="grid grid-cols-2 w-4/5 m-auto mb-10 gap-8 md:w-3/5 md:grid-cols-3 md:gap-8"
+        >
+            {
+                oldTopics?.map(({ category, isNew }) => (
                     <a href={`/part1/${category}`}>
                         <div class="  text-text-main text-[1.1rem] font-[500] line-clamp-1 md:text-[1.2rem] md:hover:text-blue-main transition duration-200 ease-in-out">
                             {category}
@@ -59,7 +113,9 @@ const keywords = "IELTS, IELTS speaking, part1, topics, questions, answers";
 </Layout>
 
 <style>
-    h1 {
+    h1,
+    h2,
+    h3 {
         font-family: "Bree Serif", serif;
     }
 
