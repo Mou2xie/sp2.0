@@ -20,6 +20,7 @@ const mustTopics = [
     { category: "The area you live in", isNew: false },
     { category: "Accommodation", isNew: false },
 ];
+
 const currentTopics = data?.filter((topic) => topic.isNew);
 let oldTopics = data?.filter((topic) => !topic.isNew);
 oldTopics = oldTopics?.filter(
