@@ -1,0 +1,97 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Main from "../../layouts/Main.astro";
+import Header from "../../components/Header.astro";
+import PartFooter from "../../components/PartFooter.svelte";
+import egg from "../../assets/egg2.svg?url";
+import place from "../../assets/place.svg?url";
+import activity from "../../assets/activity.svg?url";
+import person from "../../assets/person.svg?url";
+import object from "../../assets/object.svg?url";
+
+const pageData = [
+    {
+        name: "Person",
+        url: "/part2&3/Person",
+        image: person,
+    },
+    {
+        name: "Object",
+        url: "/part2&3/Object",
+        image: activity,
+    },
+    {
+        name: "Activity",
+        url: "/part2&3/Activity",
+        image: object,
+    },
+    {
+        name: "Place",
+        url: "/part2&3/Place",
+        image: place,
+    },
+];
+
+const title = "Part2&3 Topics - Collection of IELTS Speaking Topics";
+const description =
+    "Current and past IELTS speaking Part2 and Part3 topics questions and answers. ";
+const keywords =
+    "IELTS, IELTS speaking, part1, part2, part3, topics, questions, answers";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+    <Header />
+    <Main>
+        <img src={egg} alt="part2&3 image" class="w-28 m-auto my-7 md:w-36" />
+        <h1
+            class="text-[1.3rem] text-center font-semibold text-text-strong md:text-[1.5rem]"
+        >
+            Part 2&3 Topics
+        </h1>
+        <p
+            class="w-4/5 m-auto mt-5 text-text-secondary leading-tight md:w-3/5 md:text-[1.1rem]"
+        >
+            Part 2 of the IELTS Speaking test is the long-turn section, lasting
+            3-4 minutes. In this part, the candidate is given a topic card and
+            one minute to prepare before speaking for up to two minutes. The
+            topics often relate to personal experiences, events, or opinions.
+        </p>
+        <p
+            class="w-4/5 m-auto mt-2 text-text-secondary leading-tight md:w-3/5 md:text-[1.1rem]"
+        >
+            Part 3 of the test is the discussion section, lasting 4-5 minutes.
+            It involves a deeper conversation with the examiner, focusing on
+            abstract ideas and broader topics related to the Part 2 theme. It is
+            worth noting that Part 3 does not have pre-set questions, and the
+            test is conducted in the form of impromptu Q&A.
+        </p>
+        <section
+            class="w-4/5 m-auto my-10 grid grid-cols-1 gap-4 md:w-3/5 md:grid-cols-2"
+        >
+            {
+                pageData.map(({ name, url, image }) => (
+                    <a href={url}>
+                        <div class=" border border-text-secondary rounded-lg flex items-center box-border px-2 gap-3 group hover:border-2 hover:border-blue-main transition duration-200 ease-in-out">
+                            <img src={image} alt="person" class=" w-28" />
+                            <h2 class=" text-text-main text-[1.1rem] font-semibold md:text-[1.2rem] group-hover:text-blue-main transition duration-300 ease-in-out">
+                                {name}
+                            </h2>
+                        </div>
+                    </a>
+                ))
+            }
+        </section>
+    </Main>
+    <PartFooter part={2} />
+</Layout>
+
+<style>
+    h1,
+    h2 {
+        font-family: "Bree Serif", serif;
+    }
+
+    p {
+        font-family: "lato", sans-serif;
+    }
+</style>

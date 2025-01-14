@@ -1,0 +1,77 @@
+---
+import Layout from "../..//layouts/Layout.astro";
+import Main from "../..//layouts/Main.astro";
+import Header from "../..//components/Header.astro";
+import PartFooter from "../../components/PartFooter.svelte";
+
+import { supabaseClient } from "../../libs/supabaseClient.js";
+
+export function getStaticPaths() {
+    return [
+        { params: { category: "Person" } },
+        { params: { category: "Object" } },
+        { params: { category: "Activity" } },
+        { params: { category: "Place" } },
+    ];
+}
+
+const { category } = Astro.params;
+
+const { data, error } = await supabaseClient
+    .from("part2_topics")
+    .select("topic,id,priority")
+    .eq("isOnline", true)
+    .eq("category", category)
+    .order("priority", { ascending: false });
+
+const title = `Part2 Topics of ${category} - Collection of IELTS Speaking Topics`;
+const description = `All current and past IELTS speaking Part2 topics questions about ${category}.`;
+const keywords =
+    "IELTS, IELTS speaking, part2, part3, topics, questions, answers";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+    <Header />
+    <Main>
+        <div
+            class="subtitle text-blue-main text-[1.1rem] text-center mt-10 font-semibold"
+        >
+            <a href="/part2&3"> Part 2 Topic </a>
+        </div>
+        <h1
+            class="text-text-strong text-[1.4rem] text-center font-semibold mt-2 md:text-[1.6rem]"
+        >
+            — {category} —
+        </h1>
+        <section
+            class="w-4/5 m-auto flex flex-col gap-5 my-10 md:w-3/5 md:text-[1.1rem] md:gap-8"
+        >
+            {
+                data?.map(({ topic, id, priority }, index) => (
+                    <a href={`/part2&3/${id}`}>
+                        <div class="question font-semibold text-text-strong text-lg md:text-[1.3rem] hover:text-blue-main transition duration-200 ease-in-out">
+                            <span class=" text-blue-main">Q{index + 1}:</span>
+                            {topic}
+                            {priority === 1? <span class=" text-red-500 italic ml-2">New</span>: null}
+                        </div>
+                    </a>
+                ))
+            }
+        </section>
+    </Main>
+    <PartFooter part={2} />
+</Layout>
+
+<style>
+    h1,
+    li,
+    .subtitle,
+    .question {
+        font-family: "Bree Serif", serif;
+    }
+
+    p,
+    div {
+        font-family: "lato", sans-serif;
+    }
+</style>

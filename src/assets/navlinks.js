@@ -10,9 +10,10 @@ const navlinks = [
     },
     {
         name: "Part 2&3",
-        href: "/part2&3/list/Person",
+        href: "/part2&3",
         targetRoute: [
-            '/part2&3/list/[category]',
+            '/part2&3',
+            '/part2&3/[category]',
             '/part2&3/[id]',
         ]
     },
