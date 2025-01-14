@@ -1,5 +1,6 @@
 ---
 import Ga from "../components/Ga.astro";
+import Analytics from '@vercel/analytics/astro';
 
 const {
 	title = "Speaking Pass",
@@ -22,6 +23,7 @@ const {
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<meta name="keywords" content={keywords} />
+		<Analytics />
 	</head>
 	<body class="min-h-svh flex flex-col">
 		<slot />
